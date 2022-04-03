@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+#accuracyForm{
+    border-radius: 15px 0px 15px 0px;
+    padding: 10px;
+    margin:auto;
+    display: none;
+    position: absolute;
+    background-color: rgb(202, 70, 70);
+}
+
+canvas{
+    border-radius: 15px
+}
