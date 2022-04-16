@@ -20,10 +20,6 @@ let buttonSend = document.querySelector("#getAccuracy")
 buttonSend.addEventListener("click", clickedResponse)
 //buttonSave.addEventListener("click", saveModel)
 
-setInterval(classifyNew, 100);
-setInterval(openForm, 20000);
-setInterval(resetValue, 3000);
-
 // setting up variables
 let distracted;
 let soundPlay = false;
@@ -31,11 +27,16 @@ let prediction;
 let showingPopup;
 let predictions = [];
 let predictionArray = [];
+let predictionsLearn = [];
 
 // for calculating the accuracy
 let accuracy;
 let total = 0;
 let amountCorrect = 0;
+
+setInterval(classifyNew, 100);
+setInterval(openForm, 20000);
+setInterval(resetValue, 3000);
 
 // Create a new poseNet method
 knnClassifier.load("myKNN.json");
@@ -153,19 +154,18 @@ function classifyNew() {
         knnClassifier.classify(predictionArray, (err, result) => {
             //prediction = result.label
             if (result != undefined) {
-                if(result.confidencesByLabel.Distracted > result.confidencesByLabel.Paying){
+                if (result.confidencesByLabel.Distracted > result.confidencesByLabel.Paying) {
                     prediction = "Distracted"
                     if (soundPlay == false) {
                         audio.play();
                         soundPlay = true;
-                        console.log("sheeshmomma")
                     }
                 }
-                if(result.confidencesByLabel.Paying > result.confidencesByLabel.Distracted){
+                if (result.confidencesByLabel.Paying > result.confidencesByLabel.Distracted) {
                     prediction = "Paying"
                 }
             }
-          })
+        })
         //console.log(`I think it's a ${prediction}`)
         if (prediction != undefined) {
             if (prediction == "Distracted") {
@@ -180,7 +180,7 @@ function classifyNew() {
             if (prediction == "Paying") {
                 distracted = 0;
                 attention.innerHTML = "Paying attention";
-                if (showingPopup == false || distraction.innerHTML == "" ) {
+                if (showingPopup == false || distraction.innerHTML == "") {
                     distraction.innerHTML = "Paying attention"
                 }
                 removeClasses();
@@ -192,6 +192,8 @@ function classifyNew() {
 
 function openForm() {
     if (Number.isInteger(distracted)) {
+        predictionsLearn = predictionArray
+        console.log(predictionsLearn)
         showingPopup = true
         document.getElementById("accuracyForm").style.display = "block";
         setTimeout(closeForm, 6000);
@@ -218,18 +220,31 @@ function accuracyCalc(data) {
         accuracy = amountCorrect / total * 100
         accuracy = accuracy.toFixed(2)
         accuracyView.innerHTML = `${accuracy}%`
+        if (distraction.innerHTML == "Paying attention") {
+            knnClassifier.addExample(predictionsLearn, "Paying")
+        }
+        if (distraction.innerHTML == "Distracted") {
+            knnClassifier.addExample(predictionsLearn, "Distracted")
+        }
     }
     if (data == "wrong") {
         total++
         accuracy = amountCorrect / total * 100
         accuracy = accuracy.toFixed(2)
         accuracyView.innerHTML = `${accuracy}%`
+        if (distraction.innerHTML == "Paying attention") {
+            knnClassifier.addExample(predictionsLearn, "Distracted")
+        }
+        if (distraction.innerHTML == "Distracted") {
+            knnClassifier.addExample(predictionsLearn, "Paying")
+        }
     }
 }
 
 function closeForm() {
     showingPopup = false;
     document.getElementById("accuracyForm").style.display = "none";
+    predictionsLearn = [];
 }
 
 function resetValue() {
