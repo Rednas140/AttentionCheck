@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Getting Started with ml5.js</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
+  <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+
+  <script defer src="./app.js"></script>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+
+<body>
+    <img src="./images/logo.png" alt="LOGO">
+  <section id="content">
+    <!-- <h1>The Spantention</h1> -->
+    <div id="accuracyForm">
+      <p>The A.I. just thought you were <span id="distraction"></span></p>
+      <p> a second ago, was it right?</p>
+      <div>
+        <input type="radio" id="right" name="accuracy" value="right">
+        <label for="right">Right</label>
+        <input type="radio" id="wrong" name="accuracy" value="wrong">
+        <label for="wrong">Wrong</label>
+      </div>
+      <div>
+        <button id="getAccuracy">Send</button>
+      </div>
+    </div>
+    <canvas id="canvas" width="640" height="480">
+      <div id="accuracyForm">
+        <p>The A.I. just thought you were <span id="distraction"></span></p>
+        <p> a second ago, was it right?</p>
+        <div>
+          <input type="radio" id="right" name="accuracy" value="right">
+          <label for="right">Right</label>
+          <input type="radio" id="wrong" name="accuracy" value="wrong">
+          <label for="wrong">Wrong</label>
+        </div>
+        <div>
+          <button id="getAccuracy">Send</button>
+        </div>
+      </div>
+    </canvas>
+    <video id="video" width="640" height="480" autoplay muted style="display: none"></video>
+    <!-- <div>
+      <input type="radio" id="distracted" name="attention" value="Distracted">
+      <label for="distracted">Distracted</label>
+      <input type="radio" id="paying" name="attention" value="Paying">
+      <label for="paying">Paying attention</label>
+    </div> -->
+    <!-- <div>
+      <button id="buttonLearn">Learn</button>
+      <button id="buttonSave">Save</button>
+    </div> -->
+    <p>Attention status:<span id="attention"></span></p>
+    <p>Accuracy:<span id="accuracyView"></span></p>
+
+  </section>
+</body>
+
+</html>
